@@ -1,0 +1,45 @@
+.full-width-table {
+  width: 100%;
+}
+
+.search-container{
+  width: 100%;
+  padding: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+
+}
+
+.title-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+mat-form-field{
+  width: 25%;
+}
+
+.title{
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+
+.subject-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+  padding: 10px;
+  text-align: left !important;
+}
+.subject-label{
+  width: 50%;
+  text-align: left;
+}
+.subject-data{
+  width: 50%;
+  text-align: left;
+}

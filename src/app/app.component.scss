@@ -1,0 +1,59 @@
+.title {
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+
+.container-all {
+  overflow-x: none;
+}
+
+.main-container {
+  display: flex;
+  height: calc(100vh - 58px);
+  overflow: none;
+}
+
+.sidenav-container {
+  overflow: none;
+  width: 225px !important;
+  padding: 0px;
+  margin: 0px;
+  background-color: #212529 !important;
+  transition: all 0.5s ease-in-out;
+}
+
+
+@media (min-width: 768px) {
+  .sidenav-container {
+    overflow: none;
+    width: 225px !important;
+    padding: 0px;
+    margin: 0px;
+    background-color: #212529 !important;
+  }
+
+  .content-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: calc(100vw - 225px);
+    padding: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidenav-container {
+    margin-left: -225px;
+  }
+  .content-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    padding: 25px;
+  }
+}
+
+
+.active{
+  margin-left: 0px;
+}
+

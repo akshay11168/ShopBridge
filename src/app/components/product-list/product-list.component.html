@@ -1,0 +1,147 @@
+<div class="fit-table" *ngIf="!detailData">
+
+  <div class="fit-box">
+
+    <div class="search-container">
+      <div class="title">
+        Products <span *ngIf="filterByName">Containing {{filterByName}}</span>
+      </div>
+      <mat-form-field class="w-30">
+        <mat-label>Filter by any column data</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filter by any column data" [(ngModel)]="filterVal" #input> 
+      </mat-form-field>
+    </div>
+
+
+    <div class="mat-elevation-z8">
+      <table mat-table class="full-width-table" matSort aria-label="Elements">
+        <!-- Id Column -->
+        <ng-container matColumnDef="stock">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>stock</th>
+          <td mat-cell *matCellDef="let row">{{row.stock}}</td>
+        </ng-container>
+    
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>price</th>
+          <td mat-cell *matCellDef="let row">{{row.price}}</td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
+          <td mat-cell *matCellDef="let row">{{row.productName}}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-mini-fab color="primary" aria-label="Delete Product" (click)="deleteProduct(row._id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-mini-fab color="primary" aria-label="Edit Product" (click)="editProduct(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-mini-fab color="primary" aria-label="Detail Product" (click)="detailProduct(row._id)">
+              <mat-icon>info</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    
+      <mat-paginator #paginator
+          [length]="dataSource?.data.length"
+          [pageIndex]="0"
+          [pageSize]="25"
+          [pageSizeOptions]="[25, 50, 100, 250]">
+      </mat-paginator>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="detailData">
+  <!-- {{detailData | json}} -->
+
+  <div class="title-container">
+    <div class="title">
+      Details of : {{detailData[0].productName}}
+    </div>
+    <button mat-mini-fab color="primary" aria-label="Back" (click)="detailData=null;getAllProducts()">
+      <mat-icon>west</mat-icon>
+    </button>
+
+  </div>
+  
+
+  <div class="subject-container">
+    <div class="subject-label">
+      Product Name :
+    </div>
+    <div class="subject-data">
+      {{detailData[0].productName}}
+    </div>
+  </div>
+
+  <div class="subject-container">
+    <div class="subject-label">
+      Product Type :
+    </div>
+    <div class="subject-data">
+      {{detailData[0].productType}}
+    </div>
+  </div>
+
+  <div class="subject-container">
+    <div class="subject-label">
+      Description :
+    </div>
+    <div class="subject-data">
+      {{detailData[0].description}}
+    </div>
+  </div>
+
+  <div class="subject-container">
+    <div class="subject-label">
+      Stock :
+    </div>
+    <div class="subject-data">
+      {{detailData[0].stock}}
+    </div>
+  </div>
+
+  <div class="subject-container">
+    <div class="subject-label">
+       Price :
+    </div>
+    <div class="subject-data">
+      {{detailData[0].price}}
+    </div>
+  </div>
+
+  <!-- Product Name : {{detailData[0].productName}}
+  Product Type : {{detailData[0].productType}}
+  Description : {{detailData[0].description}}
+  Stock : {{detailData[0].stock}}
+  Price : {{detailData[0].price}} -->
+</div>
+
+
+

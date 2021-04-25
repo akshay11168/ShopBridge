@@ -1,0 +1,104 @@
+<div class="title-container">
+    <div class="title" *ngIf="currentMode=='create'">
+        Create Product
+    </div>
+
+    <div class="title" *ngIf="currentMode=='edit'">
+        Edit Product
+    </div>
+
+    <button mat-mini-fab color="primary" aria-label="Back" routerLink="/productslist">
+        <mat-icon>west</mat-icon>
+    </button>
+
+</div>
+<div class="form-container">
+
+
+
+    <form [formGroup]="createFormGroup">
+
+        <mat-horizontal-stepper linear="true" #stepper>
+
+            <mat-step label="Products Detail" [stepControl]="createFormGroup.controls['productGroup']" editable
+                formGroupName="productGroup">
+
+                <mat-form-field class="full-width" appearance="standard">
+                    <mat-label>Product Name</mat-label>
+                    <input type="text" matInput formControlName="productName" placeholder="Product Name">
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="standard">
+                    <mat-label>Product Category</mat-label>
+                    <mat-select formControlName="productType">
+                        <mat-option *ngFor="let category of categoryList" [value]="category">{{category}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput resizeToFitContent="true" formControlName="description"></textarea>
+                </mat-form-field>
+
+                <!-- <div class="label-text">
+                        Add Images :
+                    </div> -->
+
+                <!-- <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="container-fluid">
+                                    <div class="row space">
+                                        <div class="col-sm-3 fit-image"
+                                            *ngFor="let file of imagesList">
+                                            <img src="{{file}}">
+                                        </div>
+    
+                                        <div class="col-sm-3 fit-image center-icon"  *ngIf="imagesList.length<1">
+                                            <input type="file" (change)="onFileChange($event)" #uploadFile hidden
+                                            />
+                                            <div class="margin10pxleft upload-box" (click)="uploadFile.click()"></div>
+                                        </div>
+    
+    
+                                    </div>
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div> -->
+
+                <div align="end">
+                    <button mat-raised-button matStepperNext color="primary">Next</button>
+                </div>
+            </mat-step>
+
+            <mat-step label="Stock Details" [stepControl]="createFormGroup.controls['stockGroup']"
+                formGroupName="stockGroup">
+
+                <mat-form-field class="full-width" appearance="standard">
+                    <mat-label>Price</mat-label>
+                    <input type="string" matInput displayRupee formControlName="price" displayRupee
+                        placeholder="Product Price">
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="standard">
+                    <mat-label>Stock Available</mat-label>
+                    <input type="number" matInput formControlName="stock" placeholder="Stock Available">
+                </mat-form-field>
+
+                <div align="end">
+                    <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                    <button mat-raised-button color="primary" *ngIf="!productId"
+                        (click)="createProduct()">Submit</button>
+                    <button mat-raised-button color="primary" *ngIf="productId" (click)="editProduct()">Save</button>
+                </div>
+
+            </mat-step>
+
+        </mat-horizontal-stepper>
+
+    </form>
+
+</div>

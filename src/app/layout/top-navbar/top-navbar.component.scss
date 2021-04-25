@@ -1,0 +1,46 @@
+.fix-navbar-top {
+  // position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.input-group-append{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: black 1px solid;
+    border-left: none;
+    border-radius: 3px;
+
+}
+.search-icon{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: inline-flex;
+}
+
+.nav-container{
+  height: auto;
+}
+
+
+@media (max-width: 768px) {
+
+  .side-nav-toggle{
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+
+  .side-nav-toggle{
+    display: None;
+
+  }
+}

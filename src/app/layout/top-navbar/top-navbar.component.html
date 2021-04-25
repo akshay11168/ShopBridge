@@ -1,0 +1,50 @@
+<nav class="fix-navbar-top navbar navbar-expand navbar-dark bg-dark nav-container top-nav-color">
+
+    <button mat-icon-button class="text-white btn btn-link  btn-sm order-1 order-lg-0 side-nav-toggle" id="sidebarToggle" href="#" (click)="toggleSidenav()"
+        aria-label="Menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <a class="navbar-brand  mr-auto" routerLink="/" id="title">{{title}}</a>    
+
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3">
+
+        <div class="input-group" (click)="searchProduct()">
+          
+            <input class="form-control" type="text" placeholder="Search Product" [ngModelOptions]="{standalone:true}" [(ngModel)]="productName" aria-label="Search Product"
+                aria-describedby="search">
+            <div class="input-group-append">
+                <button mat-icon-button aria-label="Search" (click)="searchProduct()">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+
+    
+
+    <!-- <mat-slide-toggle>Slide me!</mat-slide-toggle> -->
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Profile" class=" ml-xs-auto order-lg-1">
+        <mat-icon>person_pin</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+          
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+
+        <button mat-menu-item>
+          <mat-icon>notifications</mat-icon>
+          <span>Notification</span>
+        </button>
+
+        <button mat-menu-item>
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+    </mat-menu> 
+
+</nav>
