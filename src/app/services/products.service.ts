@@ -24,7 +24,7 @@ export class ProductsService {
 
   // used to deleteProduct 
   public deleteProduct(url: string, options: object = {}): Observable<Product[]> {
-    return <Observable<Product[]>>this.http.delete(url, options)
+    return <Observable<Product[]>>this.http.post(url, options)
   }
 
   // used to updateProduct
