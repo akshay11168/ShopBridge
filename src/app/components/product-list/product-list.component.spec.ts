@@ -70,26 +70,26 @@ describe('ProductListComponent', () => {
   });
 
 
-  it('aaa',fakeAsync(()=>{
+  // it('testing getAllProducts function',fakeAsync(()=>{
 
 
-    let productSpy = spyOn(productsService,'getProducts').and.returnValue(of(mockProductList))
-    let subspy= spyOn(productsService.getProducts(environment.urls.getAllProducts),'subscribe')
+  //   let productSpy = spyOn(productsService,'getProducts').and.returnValue(of(mockProductList))
+  //   let subspy= spyOn(productsService.getProducts(environment.urls.getAllProducts),'subscribe')
 
-    component.ngOnInit()
-    tick()
+  //   component.ngOnInit()
+  //   tick()
 
-    expect(productSpy).not.toHaveBeenCalledBefore(subspy)
-    expect(subspy).not.toHaveBeenCalled()
+  //   expect(productSpy).not.toHaveBeenCalledBefore(subspy)
+  //   expect(subspy).not.toHaveBeenCalled()
 
-  }))
+  // }))
 
-  it('bbb',fakeAsync(()=>{
-    component.ngOnInit()
+  // it('testing productsList list population on load ',fakeAsync(()=>{
+  //   component.ngOnInit()
 
-    expect(component.productsList).toBeDefined();
-    expect(component.productsList.length).toBeGreaterThan(0)
-  }))
+  //   expect(component.productsList).toBeDefined();
+  //   expect(component.productsList.length).toBeGreaterThan(0)
+  // }))
 
 
 });

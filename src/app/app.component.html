@@ -1,16 +1,19 @@
 <ng-container>
     <div class="container-all">
         <div class="display-nav">
+
+            <!-- displaying top nav bar -->
             <top-navbar></top-navbar>
         
             </div>
         
+            <!-- displaying content -->
             <div class="main-container show-sidenav">
-        
+                <!-- side navbar -->
                 <div class="sidenav-container" [ngClass]="{'active': sideNavSatus}">
                     <side-navbar></side-navbar>
                 </div>
-        
+                <!-- main page content  -->
                 <div class="content-container">
                     <router-outlet></router-outlet>
                 </div>

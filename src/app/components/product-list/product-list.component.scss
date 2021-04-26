@@ -1,3 +1,5 @@
+@import '../../theme/theme.scss';
+
 .full-width-table {
   width: 100%;
 }
@@ -9,7 +11,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
-
 }
 
 .title-container{
@@ -35,11 +36,22 @@ mat-form-field{
   padding: 10px;
   text-align: left !important;
 }
+
 .subject-label{
   width: 50%;
   text-align: left;
 }
+
 .subject-data{
   width: 50%;
   text-align: left;
+}
+
+th.mat-header-cell {
+  text-align: center;
+  font-size: 18px;
+}
+
+.btn-color{
+  background-color: $btn-color !important;
 }

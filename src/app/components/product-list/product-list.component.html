@@ -1,7 +1,10 @@
+
+<!-- this view is to see products in tabular format -->
 <div class="fit-table" *ngIf="!detailData">
 
   <div class="fit-box">
 
+    <!-- title of the page as per all products or products filtered by top navbar search -->
     <div class="search-container">
       <div class="title">
         Products <span *ngIf="filterByName">Containing {{filterByName}}</span>
@@ -13,9 +16,11 @@
     </div>
 
 
+    <!-- table view -->
+
     <div class="mat-elevation-z8">
       <table mat-table class="full-width-table" matSort aria-label="Elements">
-        <!-- Id Column -->
+        <!-- stock Column -->
         <ng-container matColumnDef="stock">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>stock</th>
           <td mat-cell *matCellDef="let row">{{row.stock}}</td>
@@ -33,31 +38,37 @@
           <td mat-cell *matCellDef="let row">{{row.productName}}</td>
         </ng-container>
 
-        <!-- Name Column -->
+        <!-- Id Column -->
+        <ng-container matColumnDef="productId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id</th>
+          <td mat-cell *matCellDef="let row">{{row.productId | productId:"medium"}}</td>
+        </ng-container>
+
+        <!-- Delete action  Column -->
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
           <td mat-cell *matCellDef="let row">
-            <button mat-mini-fab color="primary" aria-label="Delete Product" (click)="deleteProduct(row._id)">
+            <button mat-mini-fab class="btn-color" aria-label="Delete Product" (click)="deleteProduct(row._id)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
 
-
+        <!-- Edit action  Column -->
         <ng-container matColumnDef="edit">
           <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
           <td mat-cell *matCellDef="let row">
-            <button mat-mini-fab color="primary" aria-label="Edit Product" (click)="editProduct(row)">
+            <button mat-mini-fab class="btn-color" aria-label="Edit Product" (click)="editProduct(row)">
               <mat-icon>edit</mat-icon>
             </button>
           </td>
         </ng-container>
 
-
+        <!-- Details action  Column -->
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
           <td mat-cell *matCellDef="let row">
-            <button mat-mini-fab color="primary" aria-label="Detail Product" (click)="detailProduct(row._id)">
+            <button mat-mini-fab class="btn-color" aria-label="Detail Product" (click)="detailProduct(row._id)">
               <mat-icon>info</mat-icon>
             </button>
           </td>
@@ -77,6 +88,8 @@
   </div>
 
 </div>
+
+<!-- this view is used to see a specific product in detail -->
 <div *ngIf="detailData">
   <!-- {{detailData | json}} -->
 
@@ -97,6 +110,15 @@
     </div>
     <div class="subject-data">
       {{detailData[0].productName}}
+    </div>
+  </div>
+
+  <div class="subject-container">
+    <div class="subject-label">
+      Product Id :
+    </div>
+    <div class="subject-data">
+      {{detailData[0].productId}}
     </div>
   </div>
 

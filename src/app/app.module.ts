@@ -30,6 +30,7 @@ import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductsComponent } from './components/products/products.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ProductIdPipe } from './pipes/product-id.pipe';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     CustomRupeeStyleDirective,
     ProductListComponent,
     TopNavbarComponent,
-    DashboardComponent
+    DashboardComponent,
+    ProductIdPipe
   ],
   imports: [
     BrowserModule,

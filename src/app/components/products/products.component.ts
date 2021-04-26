@@ -6,14 +6,8 @@ import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { Product } from 'src/app/model/products';
 import { ProductsService } from 'src/app/services/products.service';
+import { productIdValidator } from 'src/app/validators/validator';
 import { environment } from 'src/environments/environment';
-
-// export class MyErrorStateMatcher implements ErrorStateMatcher {
-//   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-//     const isSubmitted = form && form.submitted;
-//     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-//   }
-// }
 
 export declare const MAT_INPUT_VALUE_ACCESSOR: InjectionToken<{
   value: any;
@@ -27,26 +21,23 @@ export declare const MAT_INPUT_VALUE_ACCESSOR: InjectionToken<{
 export class ProductsComponent implements OnInit {
   @ViewChild("stepper", { static: false }) stepper: MatStepper;
   currentMode = 'create'
-  public createFormGroup: FormGroup
+  public fromGroup: FormGroup;
   public categoryList: string[] = ["mobile", "laptops"];
-  public productId
-  public detailData
-  // public imagesList = []
-  // public imagesListRaw = []
+  public productId : string;
+  public detailData : Product;
+
+
   constructor(private _formbuilder: FormBuilder, private cd: ChangeDetectorRef, private _productService: ProductsService,
     private _snackBar: MatSnackBar, private _router: Router) {
   }
 
-  
-  
-
   ngOnInit(): void {
-
-
-
-    this.createFormGroup = this._formbuilder.group({
+    
+    // creating form group and intializing as per create or edit mode
+    this.fromGroup = this._formbuilder.group({
       productGroup: this._formbuilder.group({
         productName: ['', [Validators.required]],
+        productId: ['', [Validators.required,productIdValidator]],
         productType: ['', [Validators.required]],
         description: ['', [Validators.required]],
       }),
@@ -63,127 +54,67 @@ export class ProductsComponent implements OnInit {
       localStorage.removeItem('mode')
       this._productService.editProductData.subscribe((data: any) => {
         if(data){
-          this.createFormGroup.controls['productGroup'].patchValue(data)
-          this.createFormGroup.controls['stockGroup'].patchValue(data)
+          this.fromGroup.controls['productGroup'].patchValue(data)
+          this.fromGroup.controls['stockGroup'].patchValue(data)
           this.productId = data._id
         }
       })
     }
-
     
   }
 
+  // used to create product and navigate to all products list page
   createProduct() {
 
-    var productName = this.createFormGroup.controls['productGroup'].value['productName']
-    var productType = this.createFormGroup.controls['productGroup'].value['productType']
-    var description = this.createFormGroup.controls['productGroup'].value['description']
-    // var images = this.createFormGroup.controls['productGroup'].value['images']
-    var stock = this.createFormGroup.controls['stockGroup'].value['stock']
-    var price = this.createFormGroup.controls['stockGroup'].value['price']
+    var productName = this.fromGroup.controls['productGroup'].value['productName']
+    var productId = this.fromGroup.controls['productGroup'].value['productId']
+    var productType = this.fromGroup.controls['productGroup'].value['productType']
+    var description = this.fromGroup.controls['productGroup'].value['description']
+    var stock = this.fromGroup.controls['stockGroup'].value['stock']
+    var price = this.fromGroup.controls['stockGroup'].value['price']
 
     var product_data: Product = {
-      productName: productName,
-      productType: productType,
-      description: description,
-      // images: images,
-      stock: stock,
-      price: price,
-    }
+                    productName: productName,
+                    productId: productId,
+                    productType: productType,
+                    description: description,
+                    stock: stock,
+                    price: price,
+                  }
 
+    // convert data to formData
     var formData = new FormData();
     Object.keys(product_data).forEach((key) => {
       formData.append(key, product_data[key])
     });
- 
-    // formData.append("images",  this.imagesListRaw[0])
 
     this._productService.createProduct(environment.urls.createProduct, formData).subscribe((response: any) => {
       let snackbarAction = this._snackBar.open(response.message, "Yes", {
         duration: 4000
       })
-
       this._router.navigate(['/productslist'])
-
     }, (error) => {
-      console.log("error", error)
-    })
-
-
-  }
-
-  onFileChange(event) {
-
-    if (event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
-      // this.imagesListRaw = event.target.files
-
-      Array.from(event.target.files).forEach((file: Blob) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onload = () => {
-          // this.imagesList.push(reader.result)
-          this.cd.markForCheck()
-        }
-
+      this._snackBar.open('some error occured', 'OK', {
+        duration: 4000
       })
-
-      // this.createFormGroup.controls['productGroup'].value['images'] =  event.target.files
-    }
-
+    })
   }
 
-  displayAutoComplete(option) {
-    if (option == null) return ""
-    else if (option == undefined) return ""
-    else if (option.displayName) return option.displayName
-    else if (option.model) return option.model
-    else return option
-  }
-
-  autoCompleteSearch(searchText, list, elementName = undefined) {
-
-    if (typeof searchText == 'string') {
-      if (elementName) {
-        const filterValue = searchText.toLowerCase();
-        var filteredList = list.filter((option) => {
-          return option[elementName]?.toLowerCase().includes(filterValue)
-        })
-        return filteredList
-      }
-      else {
-        const filterValue = searchText.toLowerCase();
-        var filteredList = list.filter((option) => {
-          return String(option).toLowerCase().includes(filterValue)
-        })
-
-        return filteredList
-      }
-    }
-    else return []
-
-
-
-  }
-
+  // used to edit and update data in backend
   editProduct() {
-
-
-
-    var productName = this.createFormGroup.controls['productGroup'].value['productName']
-    var productType = this.createFormGroup.controls['productGroup'].value['productType']
-    var description = this.createFormGroup.controls['productGroup'].value['description']
-    // var images = this.createFormGroup.controls['productGroup'].value['images']
-    var stock = this.createFormGroup.controls['stockGroup'].value['stock']
-    var price = this.createFormGroup.controls['stockGroup'].value['price']
+    var productName = this.fromGroup.controls['productGroup'].value['productName']
+    var productId = this.fromGroup.controls['productGroup'].value['productId']
+    var productType = this.fromGroup.controls['productGroup'].value['productType']
+    var description = this.fromGroup.controls['productGroup'].value['description']
+    var stock = this.fromGroup.controls['stockGroup'].value['stock']
+    var price = this.fromGroup.controls['stockGroup'].value['price']
 
     var product_data = {
       _id : this.productId,
       productName: productName,
+      productId: productId,
       productType: productType,
       description: description,
-      // images: images,
       stock: stock,
       price: price,
     }
@@ -193,7 +124,6 @@ export class ProductsComponent implements OnInit {
       formData.append(key, product_data[key])
     });
 
-    // formData.append('images',)
     this._productService.updateProduct(environment.urls.updateProduct, formData).subscribe((response: any) => {
       let snackbarAction = this._snackBar.open(response.message, "Ok", {
         duration: 4000
@@ -202,15 +132,13 @@ export class ProductsComponent implements OnInit {
       this._router.navigate(['/productslist'])
 
     }, (error) => {
-      console.log("error", error)
+      this._snackBar.open('some error occured', 'OK', {
+        duration: 4000
+      })
     })
 
 
 
   }
-
-
-
-
 
 }

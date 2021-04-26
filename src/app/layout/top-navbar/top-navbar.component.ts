@@ -16,12 +16,13 @@ export class TopNavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+  // searching products based on product Name
   public searchProduct(){
     this.router.navigate(['/productslist'])
     this._productService.searchProduct(this.productName)
   }
 
+  // sibling interaction toggle button
   public toggleSidenav()
   {
     this._productService.toggleSideNav(!this._productService.toggleSideNavSource.value )
