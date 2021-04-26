@@ -7,7 +7,6 @@
 @media (min-width:1080px) {
     .main-container{
         width: 100%;
-        // padding: 25px;
         display: flex;
         justify-content: space-around;
         flex-direction: column;
@@ -19,7 +18,6 @@
 @media (max-width:1080px) {
     .main-container{
         width: 100%;
-        // padding: 25px;
         display: flex;
         justify-content: space-around;
         flex-direction: column;
@@ -28,7 +26,6 @@
 }
 
 .charts{
-    // width:100%;
     height: calc(100vh - 58px);
     flex-grow: 1;
 }

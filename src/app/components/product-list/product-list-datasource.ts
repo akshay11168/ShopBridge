@@ -9,7 +9,8 @@ export interface ProductListItem {
   stock:number,
   price:number,
   productName:string,
-  productDescription: string
+  productDescription: string,
+  productId: string,
 }
 
 /**
@@ -74,6 +75,7 @@ export class ProductListDataSource extends DataSource<ProductListItem> {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
         case 'productName': return compare(a.productName, b.productName, isAsc);
+        case 'productId': return compare(a.productId, b.productId, isAsc);
         case 'stock': return compare(+a.stock, +b.stock, isAsc);
         case 'price': return compare(+a.price, +b.price, isAsc);
         default: return 0;

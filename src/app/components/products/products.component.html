@@ -1,3 +1,4 @@
+<!-- used to display title based on create or edit mode -->
 <div class="title-container">
     <div class="title" *ngIf="currentMode=='create'">
         Create Product
@@ -7,25 +8,36 @@
         Edit Product
     </div>
 
-    <button mat-mini-fab color="primary" aria-label="Back" routerLink="/productslist">
+    <!-- back button for edit mode to return without saving -->
+    <button mat-mini-fab color="primary" aria-label="Back" *ngIf="currentMode=='edit'" routerLink="/productslist">
         <mat-icon>west</mat-icon>
     </button>
 
 </div>
+
+<!-- form to get details to create or edit product -->
 <div class="form-container">
-
-
-
-    <form [formGroup]="createFormGroup">
-
+    <form [formGroup]="fromGroup">
         <mat-horizontal-stepper linear="true" #stepper>
 
-            <mat-step label="Products Detail" [stepControl]="createFormGroup.controls['productGroup']" editable
+            <!-- basic produc detail in this step -->
+            <mat-step label="Products Detail" [stepControl]="fromGroup.controls['productGroup']" editable
                 formGroupName="productGroup">
 
                 <mat-form-field class="full-width" appearance="standard">
                     <mat-label>Product Name</mat-label>
                     <input type="text" matInput formControlName="productName" placeholder="Product Name">
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="standard">
+                    <mat-label>Product Id</mat-label>
+                    <input type="text" matInput formControlName="productId" placeholder="Product Id starts from P- & only numbers after P-">
+                    <!-- <mat-hint >
+                        Product Id starts from P- & only numbers after P-
+                    </mat-hint> -->
+                    <mat-error *ngIf="fromGroup.controls['productGroup'].value['productId']">
+                        Please follow the rules of Product ID
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="full-width" appearance="standard">
@@ -41,40 +53,13 @@
                     <textarea matInput resizeToFitContent="true" formControlName="description"></textarea>
                 </mat-form-field>
 
-                <!-- <div class="label-text">
-                        Add Images :
-                    </div> -->
-
-                <!-- <div class="container">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="container-fluid">
-                                    <div class="row space">
-                                        <div class="col-sm-3 fit-image"
-                                            *ngFor="let file of imagesList">
-                                            <img src="{{file}}">
-                                        </div>
-    
-                                        <div class="col-sm-3 fit-image center-icon"  *ngIf="imagesList.length<1">
-                                            <input type="file" (change)="onFileChange($event)" #uploadFile hidden
-                                            />
-                                            <div class="margin10pxleft upload-box" (click)="uploadFile.click()"></div>
-                                        </div>
-    
-    
-                                    </div>
-                                </div>
-                            </div>
-    
-                        </div>
-                    </div> -->
-
                 <div align="end">
                     <button mat-raised-button matStepperNext color="primary">Next</button>
                 </div>
             </mat-step>
 
-            <mat-step label="Stock Details" [stepControl]="createFormGroup.controls['stockGroup']"
+            <!-- basic more details in this step -->
+            <mat-step label="Stock Details" [stepControl]="fromGroup.controls['stockGroup']"
                 formGroupName="stockGroup">
 
                 <mat-form-field class="full-width" appearance="standard">

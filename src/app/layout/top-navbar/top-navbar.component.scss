@@ -1,5 +1,9 @@
+@import '../../theme/theme.scss';
+
+mat-icon{
+  color: $icon-white;
+}
 .fix-navbar-top {
-  // position: fixed;
   top: 0;
   right: 0;
   left: 0;
@@ -7,17 +11,17 @@
 }
 
 .input-group-append{
-    color: white;
+    color: $font-light;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: black 1px solid;
+    border: $border-dark 1px solid;
     border-left: none;
     border-radius: 3px;
 
 }
 .search-icon{
-    color: white;
+    color: $font-light;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,4 +47,9 @@
     display: None;
 
   }
+}
+
+.top-nav-dropdown{
+  background-color: $background-dark-top;
+  color: white;
 }

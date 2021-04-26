@@ -1,12 +1,15 @@
 <nav class="fix-navbar-top navbar navbar-expand navbar-dark bg-dark nav-container top-nav-color">
 
+    <!-- toggle button for sidennav bar -->
     <button mat-icon-button class="text-white btn btn-link  btn-sm order-1 order-lg-0 side-nav-toggle" id="sidebarToggle" href="#" (click)="toggleSidenav()"
         aria-label="Menu">
         <mat-icon>menu</mat-icon>
     </button>
 
+    <!-- title of the project -->
     <a class="navbar-brand  mr-auto" routerLink="/" id="title">{{title}}</a>    
 
+    <!-- input for searching products -->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3">
 
         <div class="input-group" (click)="searchProduct()">
@@ -23,13 +26,12 @@
     </form>
 
 
-    
-
-    <!-- <mat-slide-toggle>Slide me!</mat-slide-toggle> -->
+    <!-- user profile button -->
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Profile" class=" ml-xs-auto order-lg-1">
         <mat-icon>person_pin</mat-icon>
       </button>
-      <mat-menu #menu="matMenu">
+      <!-- user profile drop down -->
+      <mat-menu #menu="matMenu" class="top-nav-dropdown">
           
         <button mat-menu-item>
           <mat-icon>person</mat-icon>

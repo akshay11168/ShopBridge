@@ -1,3 +1,4 @@
+@import '../../theme/theme.scss';
 
 .full-width {
   width: 100%;
@@ -27,88 +28,14 @@ form{
   display: flex;
   justify-content: center;
   align-items: center;
-  // width: calc(100vw - 225px);
-  // height: 100%;
-}
-
-.dragDrop {
-  font-size: 40px;
-  font-weight: 700;
-  color: rgb(0, 0, 0, 0.26);
 }
 
 .btn-submit{
   display: unset;
-  background-color: blue;
+  background-color: $btn-color !important;
 }
 
 mat-form-field, .label-text {
   padding: 0px 20px 0px 10px;
 }
 
-.upload-box {
-  display: block;
-  height: 0.6em;
-  width: 0.6em;
-  font-size: 100px;
-  text-align: center;
-  line-height: 0.5em;
-  margin: 0;
-  padding: 0;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans",
-    "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed",
-    "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue",
-    Helvetica, Arial, sans-serif;
-  font-weight: lighter;
-  color: #ffffff;
-  background-color: #7a7a7a6e;
-  cursor: pointer;
-
-}
-
-.upload-box::before {
-  display: block;
-  content: "+";
-}
-
-.margin10pxleft {
-  margin-left: 10px;
-}
-
-.fit-image {
-  margin: 10px;
-  box-shadow: #127cec59 1px 2px 3px;
-  padding: 10px;
-}
-
-.fit-image img {
-  height: 100%;
-  width: 100%;
-}
-
-.fit-image mat-icon{
-  height: 100%;
-  width: 100%;
-}
-.center-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.center{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.container-fluid{
-  overflow: hidden;
-}
-
-.space{
-  justify-content: space-evenly;
-  align-items: flex-start;
-}

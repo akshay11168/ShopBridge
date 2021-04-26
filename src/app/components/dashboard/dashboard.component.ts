@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-  // for bar chart
+  // bar chart variables
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
     { data: [], label: '' }
   ];
 
-  // pie chart
+  // pie chart variables
   public pieChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -51,6 +51,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // used to get all products and there respective stocks in stocklist
   public getAllProducts() {
 
     this._productService.getProducts(environment.urls.getAllProducts).subscribe((response) => {

@@ -12,38 +12,46 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
+  // used to get products
   public getProducts(url: string, options: object = {}): Observable<Product[]> {
     return <Observable<Product[]>>this.http.get(url, options)
   }
 
+  // used to create Product
   public createProduct(url: string, options: object = {}): Observable<Product[]> {
     return <Observable<Product[]>>this.http.post(url, options)
   }
 
+  // used to deleteProduct 
   public deleteProduct(url: string, options: object = {}): Observable<Product[]> {
     return <Observable<Product[]>>this.http.delete(url, options)
   }
 
+  // used to updateProduct
   public updateProduct(url: string, options: object = {}): Observable<Product[]> {
     return <Observable<Product[]>>this.http.put(url, options)
   }
 
+  // used to get a specific product
   public getProduct(url: string, options: object = {}): Observable<any> {
     return <Observable<Product[]>>this.http.post(url, options)
   }
 
+  // navbar and product-list sibling interaction
   private messageSource = new BehaviorSubject<string>('')
   currentMessage = this.messageSource.asObservable()
   public searchProduct(productName) {
     this.messageSource.next(productName)
   }
 
+  // product-list and products component interaction to edit a specific Product
   private editProductSource = new BehaviorSubject<string>('')
   editProductData = this.editProductSource.asObservable()
   public editProduct(editProductData) {
     this.editProductSource.next(editProductData)
   }
 
+  // for toggling side nav bar
   public toggleSideNavSource = new BehaviorSubject<boolean>(false)
   toggleSideNavData = this.toggleSideNavSource.asObservable()
   public toggleSideNav(toggleSideNavData) {
