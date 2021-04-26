@@ -40,25 +40,36 @@ export class DashboardComponent implements OnInit {
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
+  public pieChartColors = [
+    {
+      backgroundColor: [],
+    },
+  ];
 
-
-  constructor(private _productService: ProductsService) { 
+  constructor(private _productService: ProductsService) {
     this.getAllProducts()
+  }
+
+
+
+  ngOnInit(): void {
   }
 
   
 
-  ngOnInit(): void {
+  public randomColor(){
+    return  "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
   }
+
 
   // used to get all products and there respective stocks in stocklist
   public getAllProducts() {
 
     this._productService.getProducts(environment.urls.getAllProducts).subscribe((response) => {
       var productsList = response
-      productsList.forEach((product)=>{
+      productsList.forEach((product) => {
         this.stockList.push({
-          Name : product.productName,
+          Name: product.productName,
           Stock: product.stock
         })
 
@@ -67,7 +78,9 @@ export class DashboardComponent implements OnInit {
         this.barChartData[0]['data'].push(product.stock)
         this.pieChartData.push(product.stock)
 
-      })
+        this.pieChartColors[0].backgroundColor.push(this.randomColor())
+
+        })
 
 
     }, error => {

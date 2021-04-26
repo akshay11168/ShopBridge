@@ -12,6 +12,15 @@
         flex-direction: column;
         align-content: center;
     }
+
+    .graph-containers{
+        margin-top: 25px;
+        display: flex;
+    }
+
+    .charts{
+        box-shadow: black;
+    }
 }
 
 
@@ -23,9 +32,13 @@
         flex-direction: column;
         align-content: center;
     }
+
+    .charts{
+        margin: 25px;
+    }
 }
 
 .charts{
-    height: calc(100vh - 58px);
+    // height: calc(100vh - 58px);
     flex-grow: 1;
 }
