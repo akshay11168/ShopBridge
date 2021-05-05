@@ -40,7 +40,7 @@ export class ProductListComponent implements AfterViewInit, OnInit {
     this._productService.currentMessage.subscribe((productName) => {
       this.filterByName = productName
       this.getSpecificProduct()
-      this.getAllProducts()
+      // this.getAllProducts()
     })
   }
 
@@ -56,6 +56,7 @@ export class ProductListComponent implements AfterViewInit, OnInit {
 
   // used to get list of all products to be displayed in table
   public getAllProducts() {
+    console.log("sfafas")
     this._productService.getProducts(environment.urls.getAllProducts).subscribe((response) => {
       this.productsList = response
       this.dataSource = new MatTableDataSource(this.productsList);
