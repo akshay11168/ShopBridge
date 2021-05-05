@@ -40,7 +40,7 @@ export class ProductListComponent implements AfterViewInit, OnInit {
     this._productService.currentMessage.subscribe((productName) => {
       this.filterByName = productName
       this.getSpecificProduct()
-      this.getAllProducts()
+//       this.getAllProducts()
     })
   }
 
