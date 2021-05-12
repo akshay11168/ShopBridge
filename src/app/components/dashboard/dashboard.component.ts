@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
@@ -46,13 +47,13 @@ export class DashboardComponent implements OnInit {
     },
   ];
 
-  constructor(private _productService: ProductsService) {
-    this.getAllProducts()
+  constructor(private _productService: ProductsService,private _snackBar: MatSnackBar) {
   }
 
 
 
   ngOnInit(): void {
+    this.getAllProducts()
   }
 
   
@@ -83,9 +84,11 @@ export class DashboardComponent implements OnInit {
         })
 
 
-    }, error => {
-
-    })
+      }, error => {
+        this._snackBar.open('some error occured', 'OK', {
+          duration: 4000
+        })
+      })
 
   }
 

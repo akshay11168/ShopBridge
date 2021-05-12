@@ -52,7 +52,7 @@ export class ProductsComponent implements OnInit {
       this.currentMode = localStorage.getItem('mode');
 
       localStorage.removeItem('mode')
-      this._productService.editProductData.subscribe((data: any) => {
+      this._productService.getEditProductData().subscribe((data: any) => {
         if(data){
           this.fromGroup.controls['productGroup'].patchValue(data)
           this.fromGroup.controls['stockGroup'].patchValue(data)

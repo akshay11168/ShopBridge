@@ -18,22 +18,22 @@ export class ProductsService {
   }
 
   // used to create Product
-  public createProduct(url: string, options: object = {}): Observable<Product[]> {
-    return <Observable<Product[]>>this.http.post(url, options)
+  public createProduct(url: string, options: object ):any {
+    return <Observable<any>>this.http.post(url, options)
   }
 
   // used to deleteProduct 
-  public deleteProduct(url: string, options: object = {}): Observable<Product[]> {
-    return <Observable<Product[]>>this.http.post(url, options)
+  public deleteProduct(url: string, options: object ): any {
+    return <Observable<any>>this.http.post(url, options)
   }
 
   // used to updateProduct
-  public updateProduct(url: string, options: object = {}): Observable<Product[]> {
-    return <Observable<Product[]>>this.http.put(url, options)
+  public updateProduct(url: string, options: object ): any {
+    return <Observable<any>>this.http.put(url, options)
   }
 
   // used to get a specific product
-  public getProduct(url: string, options: object = {}): Observable<any> {
+  public getProduct(url: string, options: object ): Observable<any> {
     return <Observable<Product[]>>this.http.post(url, options)
   }
 
@@ -43,12 +43,18 @@ export class ProductsService {
   public searchProduct(productName) {
     this.messageSource.next(productName)
   }
+  public getCurrentMessage(){
+    return this.currentMessage
+  }
 
   // product-list and products component interaction to edit a specific Product
   private editProductSource = new BehaviorSubject<string>('')
   editProductData = this.editProductSource.asObservable()
   public editProduct(editProductData) {
     this.editProductSource.next(editProductData)
+  }
+  public getEditProductData(){
+    return this.editProductData
   }
 
   // for toggling side nav bar
@@ -57,7 +63,14 @@ export class ProductsService {
   public toggleSideNav(toggleSideNavData) {
     this.toggleSideNavSource.next(toggleSideNavData)
   }
+  public getToggleSideNavData(){
+    return this.toggleSideNavData
+  }
 
+
+  public getToggleSideNavSource(){
+    return this.toggleSideNavSource
+  }
 
 
 
