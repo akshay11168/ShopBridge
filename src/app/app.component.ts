@@ -15,14 +15,10 @@ export class AppComponent implements OnInit {
   constructor(private _productService:ProductsService){}
   ngOnInit(){
 
-    this._productService.toggleSideNavData.subscribe((data: any) => {
+    this._productService.getToggleSideNavData().subscribe((data: any) => {
       this.sideNavSatus = data
     })
 
-
-    // this._productService.toggleSideNavSource.subscribe((data)=>{
-
-    // })
   }
 
 

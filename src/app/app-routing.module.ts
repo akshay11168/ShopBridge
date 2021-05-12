@@ -4,7 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductsComponent } from './components/products/products.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {path: 'products', component:ProductsComponent},
   {path: 'productslist', component:ProductListComponent},
   {path: 'dashboard', component:DashboardComponent},

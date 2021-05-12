@@ -25,6 +25,6 @@ export class TopNavbarComponent implements OnInit {
   // sibling interaction toggle button
   public toggleSidenav()
   {
-    this._productService.toggleSideNav(!this._productService.toggleSideNavSource.value )
+    this._productService.toggleSideNav(!this._productService.getToggleSideNavSource().value )
   }
 }

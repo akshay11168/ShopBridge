@@ -1,96 +1,204 @@
-import { TestBed } from '@angular/core/testing';
-import { ProductsService } from './products.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Product } from '../model/products';
-import { environment } from 'src/environments/environment';
+import { TestBed } from "@angular/core/testing";
+import { ProductsService } from "./products.service";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
+import { Product } from "../model/products";
+import { environment } from "src/environments/environment";
+import { Products } from "src/assets/mock-data/db.data";
+import { subscribeOn } from "rxjs/operators";
 
-describe('ProductsService', () => {
-  let service: ProductsService;
+describe("ProductsService", () => {
   let productService: ProductsService;
-  let httpTestCtrl: HttpTestingController;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
-      providers: [
-        ProductsService
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [ProductsService],
     });
 
-    service = TestBed.inject(ProductsService);
+    productService = TestBed.inject(ProductsService);
   });
 
   beforeEach(() => {
-    productService = TestBed.inject(ProductsService)
-    httpTestCtrl = TestBed.inject(HttpTestingController)
-  })
-
-  afterEach(()=>{
-    httpTestCtrl.verify()
-  })
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+    productService = TestBed.inject(ProductsService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
-  it('should test getProducts', () => {
-    const testProducts: Product[] = [
-      {
-        productName: 'Iphone 11',
-        productType: 'mobile',
-        description: 'It is a smartPhone',
-        stock: 223,
-        price: 110000,
-      },
-      {
-        productName: 'A30',
-        productType: 'mobile',
-        description: 'It is a smartPhone',
-        stock: 333,
-        price: 99999,
-      }
-    ]
+  afterEach(() => {
+    httpTestingController.verify();
+  });
 
-    productService.getProducts(environment.urls.getAllProducts).subscribe((products)=>{
-      expect(testProducts).toBe(products,'should check mocked data')
+  it("should be created", () => {
+    expect(productService).toBeTruthy();
+  });
+
+  it("should getProducts", () => {
+    productService.getProducts("/get/products/").subscribe((response) => {
+      const product = response.find((product) => {
+        return product.productId == "P-001";
+      });
+
+      expect(response.length).toBe(5);
+
+      expect(product.productId).toBe("P-001");
+    });
+
+    const req = httpTestingController.expectOne("/get/products/");
+
+    expect(req.request.method).toEqual("GET");
+
+    req.flush(Object.values(Products));
+  });
+
+  it("should getProduct", () => {
+    productService
+      .getProduct("/get/products/", { productName: "Samsung A-50" })
+      .subscribe((response) => {
+        const product = response.find((product) => {
+          return product.productId == "P-001";
+        });
+
+        expect(response.length).toBeGreaterThanOrEqual(
+          1,
+          "Length of response didn't match"
+        );
+
+        expect(product.productId).toBe("P-001", "course ID didn't match");
+      });
+
+    const req = httpTestingController.expectOne("/get/products/");
+
+    expect(req.request.method).toEqual("POST", "imporper request method");
+
+    req.flush(Object.values(Products));
+  });
+
+  it("should createProduct", () => {
+    const createProduct = {
+      productName: "Iphone 11",
+      productType: "mobile",
+      description: "It is a smartPhone",
+      stock: 223,
+      price: 110000,
+      productId: "P-006",
+    };
+
+    productService
+      .createProduct("/product/create/", createProduct)
+      .subscribe((respone) => {
+        expect(respone).toBeTruthy();
+        expect(respone.message).toBe("Entity Created Successfully");
+      });
+
+    const req = httpTestingController.expectOne("/product/create/");
+
+    expect(req.request.method).toBe("POST", "Imporper Request Method");
+
+    req.flush({
+      _id: "6097e07ef7ee360b6c7dcd36",
+      message: "Entity Created Successfully",
+    });
+  });
+
+  it("should deleteProduct", () => {
+    const data = { _id: "172490821" };
+
+    productService
+      .deleteProduct("/product/delete", data)
+      .subscribe((response) => {
+        expect(response).toBeTruthy();
+        expect(response).toBe("Entity Deleted Successfully");
+      });
+
+    const req = httpTestingController.expectOne("/product/delete");
+
+    expect(req.request.method).toBe("POST");
+    req.flush("Entity Deleted Successfully");
+  });
+
+  it("should updateProduct", () => {
+    const updateProduct = {
+      productName: "Iphone 11",
+      productType: "mobile",
+      description: "It is a smartPhone",
+      stock: 223,
+      price: 110000,
+      productId: "P-006",
+    };
+
+    productService
+      .updateProduct("/product/update/", updateProduct)
+      .subscribe((respone) => {
+        expect(respone).toBeTruthy();
+        expect(respone.message).toBe("Entity Edited Successfully");
+      });
+
+    const req = httpTestingController.expectOne("/product/update/");
+
+    expect(req.request.method).toBe("PUT", "Imporper Request Method");
+
+    req.flush({
+      _id: "6097e07ef7ee360b6c7dcd36",
+      message: "Entity Edited Successfully"
+    });
+  });
+
+  it("should searchProduct",()=>{
+    
+    productService.currentMessage.subscribe(data =>{
+      expect(data).toBeFalsy()
     })
+    
+    productService.searchProduct("")
 
-    const req = httpTestCtrl.expectOne(environment.urls.getAllProducts)
+  })
 
-    expect(req.cancelled).toBeFalsy();
-    expect(req.request.responseType).toEqual('json')
+  it("should editProduct",()=>{
+    
+    productService.editProductData.subscribe(data =>{
+      expect(data).toBeFalsy()
+    })
+    
+    productService.editProduct("")
 
-    req.flush(testProducts)
+  })
+
+  it("should toggleSideNav",()=>{
+    
+    productService.toggleSideNavData.subscribe(data =>{
+      if(data) expect(data).toBeTruthy()
+      else expect(data).toBeFalsy()
+    })
+    
+    productService.toggleSideNav("abc")
 
   })
 
 
-  // it('should test createProduct', () => {
-  //   const testProduct: Product=       {
-  //       productName: 'Iphone 11',
-  //       productType: 'mobile',
-  //       description: 'It is a smartPhone',
-  //       stock: 223,
-  //       price: 110000,
-  //     }
+  it("should getCurrentMessage",()=>{
+    const result = productService.getCurrentMessage()
+    expect(result).toBeTruthy()
+  })
 
-  //   productService.createProduct(environment.urls.getAllProducts,testProduct).subscribe((product)=>{
-  //     // expect(testProduct).toBe(product[0],'should check mocked data')
-  //       // expect(product).toBeTruthy()
 
-  //   })
+  it("should getEditProductData",()=>{
+    const result = productService.getEditProductData()
+    expect(result).toBeTruthy()
+  })
 
-  //   const req = httpTestCtrl.expectOne(environment.urls.createProduct)
 
-  //   expect(req.cancelled).toBeFalsy();
-  //   expect(req.request.responseType).toEqual('json')
+  it("should getToggleSideNavData",()=>{
+    const result = productService.getToggleSideNavData()
+    expect(result).toBeTruthy()
+  })
 
-  //   req.flush(testProduct)
-
-  // })
-
+  it("should getToggleSideNavSource",()=>{
+    const result = productService.getToggleSideNavSource()
+    expect(result).toBeTruthy()
+  })
 
 
 

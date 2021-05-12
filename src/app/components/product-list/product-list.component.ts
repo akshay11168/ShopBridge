@@ -15,37 +15,36 @@ import { Product } from 'src/app/model/products';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements AfterViewInit, OnInit {
+export class ProductListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<ProductListItem>;
+  @ViewChild(MatTable) table;
 
   public dataSource;
-  public filterVal : string;
-  public detailData : object;
-  public productsList : any[];
+  public filterVal: string;
+  public detailData: object;
+  public productsList: any[] = [];
   public filterByName: string;
 
 
   // columns to be displayed in table in sequence as given
-  displayedColumns = ['productId','productName', "stock", "price", "details", 'edit', "delete"];
+  displayedColumns = ['productId', 'productName', "stock", "price", "details", 'edit', "delete"];
 
-  
+
   constructor(private _cd: ChangeDetectorRef, private _productService: ProductsService, private _snackBar: MatSnackBar, private _router: Router) {
   }
 
   ngOnInit() {
 
     // this function is used to populate filervalue from top nav bar then search accordingly
-    this._productService.currentMessage.subscribe((productName) => {
-      this.filterByName = productName
-      this.getSpecificProduct()
-      // this.getAllProducts()
+    this._productService.getCurrentMessage().subscribe((productName) => {
+      if(productName){
+        this.filterByName = productName
+        this.getSpecificProduct()
+      }else{
+        this.getAllProducts()
+      }
     })
-  }
-
-
-  ngAfterViewInit() {
   }
 
   // filter to filter data in table
@@ -56,7 +55,7 @@ export class ProductListComponent implements AfterViewInit, OnInit {
 
   // used to get list of all products to be displayed in table
   public getAllProducts() {
-    console.log("sfafas")
+
     this._productService.getProducts(environment.urls.getAllProducts).subscribe((response) => {
       this.productsList = response
       this.dataSource = new MatTableDataSource(this.productsList);
@@ -100,27 +99,39 @@ export class ProductListComponent implements AfterViewInit, OnInit {
   // used to delete product from backend based on product id
   public deleteProduct(id: string) {
 
-    let snackbarAction = this._snackBar.open("You sure want to delete the Product", "Yes", {
-      duration: 4000
-    })
+    // let snackbarAction = this._snackBar.open("You sure want to delete the Product", "Yes", {
+    //   duration: 4000
+    // })
 
     var data = {
       '_id': id
     }
 
-    snackbarAction.onAction().subscribe((response) => {
-      this._productService.deleteProduct(environment.urls.deleteProduct, data).subscribe((response) => {
-        this.getAllProducts()
-        let snackbarAction = this._snackBar.open("Product deleted succesfully", "Ok", {
+    this._productService.deleteProduct(environment.urls.deleteProduct, data).subscribe((response) => {
+      this.getAllProducts()
+      let snackbarAction = this._snackBar.open("Product deleted succesfully", "Ok", {
+        duration: 4000
+      })
+    },
+      error => {
+        let snackbarAction = this._snackBar.open("Problem deleting the product", "Ok", {
           duration: 4000
         })
-      },
-        error => {
-          let snackbarAction = this._snackBar.open("Problem deleting the product", "Ok", {
-            duration: 4000
-          })
-        })
-    })
+      })
+
+    // snackbarAction.onAction().subscribe((response) => {
+    //   this._productService.deleteProduct(environment.urls.deleteProduct, data).subscribe((response) => {
+    //     this.getAllProducts()
+    //     let snackbarAction = this._snackBar.open("Product deleted succesfully", "Ok", {
+    //       duration: 4000
+    //     })
+    //   },
+    //     error => {
+    //       let snackbarAction = this._snackBar.open("Problem deleting the product", "Ok", {
+    //         duration: 4000
+    //       })
+    //     })
+    // })
   }
 
   // send specific product to edit (productsComponent)

@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 
@@ -31,9 +31,18 @@ import { SideNavbarComponent } from './layout/side-navbar/side-navbar.component'
 import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductsComponent } from './components/products/products.component';
+import { ProductsService } from './services/products.service';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
+  
+  let fixture: ComponentFixture<AppComponent>;
+  let component : AppComponent;
+  let productsService : any;
+
   beforeEach(async(() => {
+
+    const productServiceSpy = jasmine.createSpyObj('productService',["getToggleSideNavData"])
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -68,25 +77,34 @@ describe('AppComponent', () => {
         ProductListComponent,
         TopNavbarComponent
       ],
-    }).compileComponents();
+      providers:[
+        {provide : ProductsService ,useValue: productServiceSpy}
+      ]
+    }).compileComponents().then(()=>{
+      fixture = TestBed.createComponent(AppComponent);
+      component = fixture.componentInstance;
+      productsService = TestBed.inject(ProductsService)
+    });
   }));
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    
+    expect(component).toBeTruthy();
   });
 
   it(`should have as title 'ShopBridge'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('ShopBridge');
+    expect(component.title).toContain('ShopBridge');
   });
 
-  // it('should render title', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   // expect(compiled.querySelector('.content span').textContent).toContain('ShopBridge app is running!');
-  // });
+  it('should get sideNavStatus',()=>{
+
+    // productService.getToggleSideNavData.subscribe((response)=>{
+    //   expect(response).toBeFalsy()
+    // })
+
+    // productService.getToggleSideNavData.and.returnValue(of("abc","abc"))
+    productsService.getToggleSideNavData.and.returnValue( of('Hello', 'World'))
+    expect(component.sideNavSatus).toBeFalsy()
+    fixture.detectChanges()
+  })
 });
